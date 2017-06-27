@@ -7,7 +7,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.models.Book;
+
+import org.parceler.Parcels;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
@@ -24,8 +28,18 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
 
         // Extract book object from intent extras
+        Book book = (Book) Parcels.unwrap(getIntent().getParcelableExtra("book"));
 
         // Use book object to populate data into views
+        tvTitle.setText(book.getTitle());    // get title
+        tvAuthor.setText(book.getAuthor());    // get author
+
+        // get book cover using glide
+        String imageUrl = book.getCoverUrl();
+        Glide.with(getApplicationContext())
+                .load(imageUrl)
+                .into(ivBookCover);
+
     }
 
 
